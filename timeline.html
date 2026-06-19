@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spanny's Timeline — SpannyDeVito.com</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,400&family=DM+Sans:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FAF7F2;
+    --ink: #1A1714;
+    --gold: #C9972B;
+    --rust: #B84B2A;
+    --pale: #F0EBE3;
+    --muted: #6B6560;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    line-height: 1.8;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: rgba(26,23,20,0.92);
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--cream); text-decoration: none; }
+  .nav-logo span { color: var(--gold); }
+  .nav-back { color: rgba(250,247,242,0.7); font-size: 13px; text-decoration: none; transition: color 0.15s; }
+  .nav-back:hover { color: var(--gold); }
+
+  .page-header {
+    padding: 10rem 2rem 4rem;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .page-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 1rem;
+  }
+
+  .page-header p {
+    color: var(--muted);
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  .journal {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 2rem 8rem;
+  }
+
+  .entry {
+    margin-bottom: 4rem;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid #E5DDD5;
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .entry:last-child {
+    border-bottom: none;
+  }
+
+  .entry-date {
+    position: sticky;
+    top: 5rem;
+  }
+
+  .entry-date-day {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--gold);
+    display: block;
+  }
+
+  .entry-date-month {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-top: 0.25rem;
+  }
+
+  .entry-date-year {
+    font-size: 11px;
+    color: var(--muted);
+    display: block;
+  }
+
+  .entry-body h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .entry-body p {
+    color: var(--ink);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+
+  .entry-body p:last-child { margin-bottom: 0; }
+
+  .entry-photo {
+    width: 100%;
+    border-radius: 4px;
+    margin-top: 1.5rem;
+    display: block;
+  }
+
+  .entry-photo-caption {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 0.5rem;
+    display: block;
+  }
+
+  .photo-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: var(--pale);
+    border-radius: 4px;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 13px;
+    font-style: italic;
+    border: 1px dashed #D5CEC6;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 0.75rem;
+  }
+
+  .tag-emergency { background: #FDE8E4; color: var(--rust); }
+  .tag-recovery { background: #FFF4DC; color: #8A6200; }
+  .tag-milestone { background: #E4F4E4; color: #2A6B2A; }
+  .tag-rescue { background: #EDE4F5; color: #5B2D8E; }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 3rem;
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px solid var(--muted);
+    padding-bottom: 2px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .back-link:hover { color: var(--ink); border-color: var(--ink); }
+
+  @media (max-width: 600px) {
+    .entry { grid-template-columns: 1fr; gap: 0.5rem; }
+    .entry-date { position: static; display: flex; gap: 0.5rem; align-items: baseline; }
+    .entry-date-day { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Spanny <span>DeVito</span></a>
+  <a href="index.html" class="nav-back">← Back to Spanny's story</a>
+</nav>
+
+<div class="page-header">
+  <span class="page-eyebrow">A diary</span>
+  <h1>Spanny's Timeline</h1>
+  <p>From puppy mill to forever home. It got complicated in the middle.</p>
+</div>
+
+<div class="journal">
+
+  <div class="entry">
+    <div class="entry-date">
+      <span class="entry-date-day">22</span>
+      <span class="entry-date-month">May</span>
+      <span class="entry-date-year">2026</span>
+    </div>
+    <div class="entry-body">
+      <span class="tag tag-milestone">Adoption Day</span>
+      <h2>He comes home.</h2>
+      <p>We bring Spanny home. He is suspicious of everything. We are delighted. He is built like a little ottoman with legs and he has the energy of someone who has been wronged and is biding his time.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-date">
+      <span class="entry-date-day">27</span>
+      <span class="entry-date-month">May</span>
+      <span class="entry-date-year">2026</span>
+    </div>
+    <div class="entry-body">
+      <span class="tag tag-emergency">Emergency</span>
+      <h2>3:00 AM.</h2>
+      <p>Acute symptoms begin. Nobody sleeps.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-date">
+      <span class="entry-date-day">28</span>
+      <span class="entry-date-month">May</span>
+      <span class="entry-date-year">2026</span>
+    </div>
+    <div class="entry-body">
+      <span class="tag tag-emergency">Emergency</span>
+      <h2>Portia leaves. Spanny continues pooping water.</h2>
+      <p>Portia leaves to visit her mom. Spanny continues pooping water. I rush him to the emergency vet. He is hospitalized for dehydration and observation. The first concern is parvo. It is ruled out.</p>
+      <p>Rocky Mountain Cocker Rescue is responsive and concerned. The bill is not yet $3,000.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-date">
+      <span class="entry-date-day">29</span>
+      <span class="entry-date-month">May</span>
+      <span class="entry-date-year">2026</span>
+    </div>
+    <div class="entry-body">
+      <span class="tag tag-emergency">Emergency</span>
+      <h2>AHDS.</h2>
+      <p>Acute Hemorrhagic Diarrhea Syndrome diagnosis. IV fluids. Nobody is having a good time.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-date">
+      <span class="entry-date-day">30</span>
+      <span class="entry-date-month">May</span>
+      <span class="entry-date-year">2026</span>
+    </div>
+    <div class="entry-body">
+      <span class="tag tag-recovery">Recovery</span>
+      <h2>He comes home. The bill does not.</h2>
+      <p>Spanny comes home. PCR panel still pending. The bill is nearly $3,000. I wince and put it on a credit card. I reach out to the rescue and ask them to cover half. They become noticeably less responsive and less concerned.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-date">
+      <span class="entry-date-day">31</span>
+      <span class="entry-date-month">May</span>
+      <span class="entry-date-year">2026</span>
+    </div>
+    <div class="entry-body">
+      <span class="tag tag-recovery">Recovery</span>
+      <h2>Portia comes home.</h2>
+      <p>Portia comes home to find me exhausted and at my wit's end.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-date">
+      <span class="entry-date-day">2</span>
+      <span class="entry-date-month">June</span>
+      <span class="entry-date-year">2026</span>
+    </div>
+    <div class="entry-body">
+      <span class="tag tag-emergency">Diagnosis</span>
+      <h2>Giardia.</h2>
+      <p>PCR results come back: giardia. The treating vet notes the infection was likely contracted prior to adoption or during transport. We began furiously deep cleaning the house. Every surface. Every dog bed. Every crate. I threaten to burn the house down approximately seventeen times. Portia remains calm. I do not understand this.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-date">
+      <span class="entry-date-day">5</span>
+      <span class="entry-date-month">June</span>
+      <span class="entry-date-year">2026</span>
+    </div>
+    <div class="entry-body">
+      <span class="tag tag-rescue">Rescue</span>
+      <h2>The call that wasn't.</h2>
+      <p>Conference call scheduled with rescue leadership to discuss the bill. They reschedule. Then go silent.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-date">
+      <span class="entry-date-day">11</span>
+      <span class="entry-date-month">June</span>
+      <span class="entry-date-year">2026</span>
+    </div>
+    <div class="entry-body">
+      <span class="tag tag-rescue">Rescue</span>
+      <h2>They decline.</h2>
+      <p>The rescue declines to help. They also decline to return our $450 adoption fee, which seems rude. Still waiting on a clean fecal test. Spanny remains unimpressed by all of it.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-date">
+      <span class="entry-date-day">17</span>
+      <span class="entry-date-month">June</span>
+      <span class="entry-date-year">2026</span>
+    </div>
+    <div class="entry-body">
+      <span class="tag tag-recovery">Recovery</span>
+      <h2>Checkup.</h2>
+      <p>Vet appointment for a checkup and discussion about the giardia. Progress noted. Still monitoring.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="entry-date">
+      <span class="entry-date-day">19</span>
+      <span class="entry-date-month">June</span>
+      <span class="entry-date-year">2026</span>
+    </div>
+    <div class="entry-body">
+      <span class="tag tag-milestone">Milestone</span>
+      <h2>Free at last.</h2>
+      <p>Juneteenth. Ironically, Spanny is cleared of giardia. We are now integrating him into the pack. He has been through a lot. He remains suspicious of everything. We remain delighted.</p>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
